@@ -2,8 +2,10 @@ const Fastify = require('fastify')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-// const secretKey = '12345678'
+const FastifySwagger = require('fastify-swagger')
+
 const secretKey = process.env.SECRET_KEY
+// const secretKey = '12345678'
 const auth = require('./auth')
 
 const hostname = 'localhost'
@@ -13,6 +15,18 @@ const User = require('./user')
 
 const app = Fastify({
     logger: true
+})
+
+app.register(FastifySwagger, {
+    routePrefix: '/documents',
+    swagger: {
+        info: {
+            title: 'Node-Mongo-JWT LLDD',
+            description: 'CRUD+JWT',
+            version: '1.0'
+        }
+    },
+    exposeRoute: true
 })
 
 mongoose.connect('mongodb://usr:secure@127.0.0.1:27018/test', {
