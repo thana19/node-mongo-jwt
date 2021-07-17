@@ -106,6 +106,35 @@ app.post('/login', async (request, reply) => {
     return 'Logged In'
 })
 
+app.patch('/users', async (request, reply) => {
+    const {
+        userId,
+        name,
+        surname
+    } = request.body    
+
+    const updatedUser = await User.updateOne({
+        _id: userId
+    } , {
+        name,
+        surname
+    },{
+        returnOriginal: false
+    })
+ 
+    reply.send(updatedUser)
+})
+
+app.delete('/users', async (request, reply) => {
+    const { userId } = request.body
+
+    const result = await User.remove({
+        _id: userId
+    })
+
+    reply.send(result)    
+})
+
 //---- JWT ---------------------------------------
 
 app.post('/login-jwt', async (request, reply) => {
