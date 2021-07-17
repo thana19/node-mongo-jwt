@@ -4,13 +4,11 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 // const secretKey = '12345678'
 const secretKey = process.env.SECRET_KEY
-
 const auth = require('./auth')
 
 const hostname = 'localhost'
 const port = 3000
 
-const Product = require('./product')
 const User = require('./user')
 
 const app = Fastify({
@@ -33,22 +31,6 @@ app.get('/', (request, reply) => {
 
 //=============================
 
-app.get('/products', async (request, reply) => {
-    const products = await Product.find().lean()
-    reply.send(products)
-})
-
-app.post('/products', async (request, reply) => {
-    const body = request.body
- 
-      const product = new Product(body)
-      await product.save()
-      reply.send(product)
- 
-})
-
-//=============================
-
 app.get('/users', async (request, reply) => {
     const users = await User.find().lean()
     reply.send(users)
@@ -66,13 +48,13 @@ const generatePassword = async (password) => {
     const setRounds = 10
     const salt = await bcrypt.genSalt(setRounds)
     const passwordHashed = await bcrypt.hash(password, salt)
-    console.log('passwordHashed ->', passwordHashed)
+    // console.log('passwordHashed ->', passwordHashed)
     return passwordHashed
 }
 
 app.post('/users', async (request, reply) => {
     const doc = request.body
-    console.log('request.body.password ->', request.body.password)
+    // console.log('request.body.password ->', request.body.password)
 
     doc.password = await generatePassword(request.body.password)
 
