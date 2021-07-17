@@ -2,11 +2,13 @@ const Fastify = require('fastify')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const secretKey = '12345678'
+// const secretKey = '12345678'
+const secretKey = process.env.SECRET_KEY
+
+const auth = require('./auth')
 
 const hostname = 'localhost'
 const port = 3000
-
 
 const Product = require('./product')
 const User = require('./user')
@@ -104,6 +106,8 @@ app.post('/login', async (request, reply) => {
     return 'Logged In'
 })
 
+//---- JWT ---------------------------------------
+
 app.post('/login-jwt', async (request, reply) => {
     const { username, password } = request.body
 
@@ -125,4 +129,19 @@ app.post('/login-jwt', async (request, reply) => {
     return token
 })
 
+app.get('/users-jwt',{
+    preHandler: [auth.validateToken]
+}, async (request, reply) => {
+    const users = await User.find().lean()
+    reply.send(users)
+})
 
+app.get('/users-jwt/:userId',{
+    preHandler: [auth.validateToken]
+}, async (request, reply) => {
+    const { userId } = request.params
+    // console.log('equest.params ->', request.params)
+    const user = await User.findById(userId)
+
+    reply.send(user)
+})
