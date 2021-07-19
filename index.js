@@ -10,10 +10,10 @@ const auth = require('./auth')
 
 // const hostname = 'localhost'
 const hostname = '0.0.0.0'
-const port = 3000
-// const mongoUri = 'mongodb+srv://admin:357ZNnRMtGwNUYk@cluster0.sokv7.mongodb.net/test'
+const port = 5000
+const mongoUri = 'mongodb+srv://admin:357ZNnRMtGwNUYk@cluster0.sokv7.mongodb.net/test'
 // const mongoUri = 'mongodb://usr:secure@127.0.0.1:27018/test'
-const mongoUri = 'mongodb://usr:secure@mongo/test'
+// const mongoUri = 'mongodb://usr:secure@mongo/test'
 
 const User = require('./user')
 

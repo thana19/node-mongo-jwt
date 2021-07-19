@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "SECRET_KEY='12345678' MONGO_URI='mongodb://usr:secure@127.0.0.1:27018/test' nodemon index.js",
+    "dev": "nodemon index.js",
     "start": "node index.js" 
   },
   "repository": {
