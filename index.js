@@ -4,17 +4,21 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const FastifySwagger = require('fastify-swagger')
 
-const secretKey = process.env.SECRET_KEY
-// const secretKey = '12345678'
+// const secretKey = process.env.SECRET_KEY
+const secretKey = '12345678'
 const auth = require('./auth')
 
-const hostname = 'localhost'
+// const hostname = 'localhost'
+const hostname = '0.0.0.0'
 const port = 3000
+// const mongoUri = 'mongodb+srv://admin:357ZNnRMtGwNUYk@cluster0.sokv7.mongodb.net/test'
+// const mongoUri = 'mongodb://usr:secure@127.0.0.1:27018/test'
+const mongoUri = 'mongodb://usr:secure@mongo/test'
 
 const User = require('./user')
 
 const app = Fastify({
-    logger: true
+    logger: false
 })
 
 app.register(FastifySwagger, {
@@ -29,7 +33,7 @@ app.register(FastifySwagger, {
     exposeRoute: true
 })
 
-mongoose.connect('mongodb://usr:secure@127.0.0.1:27018/test', {
+mongoose.connect(mongoUri, {
    useNewUrlParser: true, 
    useCreateIndex: true,
    useUnifiedTopology: true 

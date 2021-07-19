@@ -1,6 +1,6 @@
 const jwt = require ('jsonwebtoken')
-const secretKey = process.env.SECRET_KEY
-// const secretKey = '12345678'
+// const secretKey = process.env.SECRET_KEY
+const secretKey = '12345678'
 
 const validateToken = async (request, reply) => {
     try {
