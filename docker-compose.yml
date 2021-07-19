@@ -17,8 +17,8 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: secure
-        # ports:
-            # - 27018:27017
+        ports:
+            - 27018:27017
         volumes:
             # - /Users/thanachantrapong/mongodb/data/db:/data/db
             -  /docker/data/db:/data/db
