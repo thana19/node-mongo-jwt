@@ -72,7 +72,7 @@ const comparePassword = async (password, existsPassword) => {
     return true
 }
 
-app.post('/loginx', async (request, reply) => {
+app.post('/login-x', async (request, reply) => {
     const { username, password } = request.body
 
     const user = await User.findOne({
