@@ -12,4 +12,5 @@ RUN apk add --no-cache make gcc g++ python && \
   npm rebuild bcrypt --build-from-source && \
   apk del make gcc g++ python
 
+EXPOSE 3000
 CMD ["npm","start"]

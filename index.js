@@ -4,50 +4,31 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const FastifySwagger = require('fastify-swagger')
 
-// const secretKey = process.env.SECRET_KEY
-const secretKey = '12345678'
+const config = require('./env')
 const auth = require('./auth')
-
-// const hostname = 'localhost'
-const hostname = '0.0.0.0'
-const port = 3000
-const mongoUri = 'mongodb+srv://admin:357ZNnRMtGwNUYk@cluster0.sokv7.mongodb.net/test'
-// const mongoUri = 'mongodb://usr:secure@127.0.0.1:27018/test'
-// const mongoUri = 'mongodb://usr:secure@mongo/test'
-
 const User = require('./user')
 
 const app = Fastify({
-    logger: false
+    logger: true
 })
 
-app.register(FastifySwagger, {
-    routePrefix: '/documents',
-    swagger: {
-        info: {
-            title: 'Node-Mongo-JWT LLDD',
-            description: 'CRUD+JWT',
-            version: '1.0'
-        }
-    },
-    exposeRoute: true
-})
-
-mongoose.connect(mongoUri, {
-   useNewUrlParser: true, 
-   useCreateIndex: true,
-   useUnifiedTopology: true 
-})
-
-app.listen(port, hostname, () => {
-    console.log(`inside create server #port= ${port}`)
+app.listen(config.port, config.hostname, () => {
+    console.log(`inside create server #port= ${config.port}`)
 })
 
 app.get('/', (request, reply) => {
     reply.send('OK')
 })
 
-//=============================
+//Mongoose ---------------------------------------
+
+mongoose.connect(config.mongodb.uri, {
+    useNewUrlParser: true, 
+    useCreateIndex: true,
+    useUnifiedTopology: true 
+})
+     
+//CRUD ---------------------------------------
 
 app.get('/users', async (request, reply) => {
     const users = await User.find().lean()
@@ -135,7 +116,7 @@ app.delete('/users', async (request, reply) => {
     reply.send(result)    
 })
 
-//---- JWT ---------------------------------------
+//JWT ---------------------------------------
 
 app.post('/login-jwt', async (request, reply) => {
     const { username, password } = request.body
@@ -151,7 +132,7 @@ app.post('/login-jwt', async (request, reply) => {
 
     const token = jwt.sign({
         id: user._id
-    }, secretKey, {
+    }, config.secretKey, {
         expiresIn: 120
     })
 
@@ -169,8 +150,22 @@ app.get('/users-jwt/:userId',{
     preHandler: [auth.validateToken]
 }, async (request, reply) => {
     const { userId } = request.params
-    // console.log('equest.params ->', request.params)
+    // console.log('userId ->', userId)
     const user = await User.findById(userId)
 
     reply.send(user)
+})
+
+//Swagger ---------------------------------------
+
+app.register(FastifySwagger, {
+    routePrefix: '/documents',
+    swagger: {
+        info: {
+            title: 'Node-Mongo-JWT LLDD',
+            description: 'CRUD+JWT',
+            version: '1.0'
+        }
+    },
+    exposeRoute: true
 })

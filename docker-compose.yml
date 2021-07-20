@@ -20,5 +20,5 @@ services:
         ports:
             - 27018:27017
         volumes:
-            # - /Users/thanachantrapong/mongodb/data/db:/data/db
-            -  /docker/data/db:/data/db
+            - /Users/thanachantrapong/mongodb/data/db2:/data/db
+            # -  /docker/data/db:/data/db
