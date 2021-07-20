@@ -28,14 +28,14 @@ mongoose.connect(config.mongodb.uri, {
     useUnifiedTopology: true 
 })
      
-//CRUD ---------------------------------------
+//CRUD no jwt---------------------------------------
 
-app.get('/users', async (request, reply) => {
+app.get('/users-x', async (request, reply) => {
     const users = await User.find().lean()
     reply.send(users)
 })
 
-app.get('/users/:userId', async (request, reply) => {
+app.get('/users-x/:userId', async (request, reply) => {
     const { userId } = request.params
     // console.log('equest.params ->', request.params)
     const user = await User.findById(userId)
@@ -72,7 +72,7 @@ const comparePassword = async (password, existsPassword) => {
     return true
 }
 
-app.post('/login', async (request, reply) => {
+app.post('/loginx', async (request, reply) => {
     const { username, password } = request.body
 
     const user = await User.findOne({
@@ -118,7 +118,7 @@ app.delete('/users', async (request, reply) => {
 
 //JWT ---------------------------------------
 
-app.post('/login-jwt', async (request, reply) => {
+app.post('/login', async (request, reply) => {
     const { username, password } = request.body
 
     const user = await User.findOne({
@@ -139,14 +139,14 @@ app.post('/login-jwt', async (request, reply) => {
     return token
 })
 
-app.get('/users-jwt',{
+app.get('/users',{
     preHandler: [auth.validateToken]
 }, async (request, reply) => {
     const users = await User.find().lean()
     reply.send(users)
 })
 
-app.get('/users-jwt/:userId',{
+app.get('/users/:userId',{
     preHandler: [auth.validateToken]
 }, async (request, reply) => {
     const { userId } = request.params
