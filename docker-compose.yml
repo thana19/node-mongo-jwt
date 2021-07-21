@@ -4,6 +4,8 @@ services:
     api:
         build: 
             context: ./
+        container_name: node-mongo-jwt
+        restart: always
         command: npm start
         ports: 
             - "3000:3000"

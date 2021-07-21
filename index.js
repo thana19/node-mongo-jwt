@@ -136,7 +136,8 @@ app.post('/login', async (request, reply) => {
         expiresIn: 120
     })
 
-    return token
+    // return token
+    reply.send({'message':token})
 })
 
 app.get('/users',{
