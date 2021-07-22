@@ -137,7 +137,7 @@ app.post('/login', async (request, reply) => {
     })
 
     // return token
-    reply.send({'message':token})
+    reply.send({'message':token,'id':user._id})
 })
 
 app.get('/users',{

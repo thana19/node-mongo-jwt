@@ -14,7 +14,7 @@ services:
 
     mongo:
         image: mongo
-        container_name: mongotest3
+        container_name: mongo-node
         restart: always
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
