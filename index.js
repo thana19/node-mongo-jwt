@@ -31,12 +31,12 @@ mongoose.connect(config.mongodb.uri, {
      
 //CRUD no jwt---------------------------------------
 
-app.get('/users-x', async (request, reply) => {
+app.get('/users', async (request, reply) => {
     const users = await User.find().lean()
     reply.send(users)
 })
 
-app.get('/users-x/:userId', async (request, reply) => {
+app.get('/users/:userId', async (request, reply) => {
     const { userId } = request.params
     // console.log('equest.params ->', request.params)
     const user = await User.findById(userId)
@@ -134,21 +134,21 @@ app.post('/login', async (request, reply) => {
     const token = jwt.sign({
         id: user._id
     }, config.secretKey, {
-        expiresIn: 120
+        expiresIn: 12000
     })
 
     // return token
     reply.send({'access_token':token})
 })
 
-app.get('/users',{
+app.get('/getusers',{
     preHandler: [auth.validateToken]
 }, async (request, reply) => {
     const users = await User.find().lean()
     reply.send(users)
 })
 
-app.get('/users/:userId',{
+app.get('/getuser/:userId',{
     preHandler: [auth.validateToken]
 }, async (request, reply) => {
     const { userId } = request.params
@@ -181,6 +181,27 @@ app.get('/getprofile', async (request, reply) => {
         "surname": user.surname,
     }
     reply.send(profile)
+})
+
+app.patch('/updateprofile',{
+    preHandler: [auth.validateToken]
+}, async (request, reply) => {
+    const {
+        userId,
+        name,
+        surname
+    } = request.body    
+
+    const updatedUser = await User.updateOne({
+        _id: userId
+    } , {
+        name,
+        surname
+    },{
+        returnOriginal: false
+    })
+ 
+    reply.send(updatedUser)
 })
 
 //Swagger ---------------------------------------
