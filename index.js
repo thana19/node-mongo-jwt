@@ -7,9 +7,10 @@ const FastifySwagger = require('fastify-swagger')
 const config = require('./env')
 const auth = require('./auth')
 const User = require('./user')
+const secretKey = '12345678'
 
 const app = Fastify({
-    logger: true
+    logger: false
 })
 
 app.listen(config.port, config.hostname, () => {
@@ -137,7 +138,7 @@ app.post('/login', async (request, reply) => {
     })
 
     // return token
-    reply.send({'message':token,'id':user._id})
+    reply.send({'access_token':token})
 })
 
 app.get('/users',{
@@ -155,6 +156,31 @@ app.get('/users/:userId',{
     const user = await User.findById(userId)
 
     reply.send(user)
+})
+
+app.post('/profile',{
+    preHandler: [auth.validateToken]
+}, async (request, reply) => {
+    const { userId } = request.body
+    console.log('userId ->', userId)
+    const user = await User.findById(userId)
+
+    reply.send(user)
+})
+
+app.get('/getprofile', async (request, reply) => {
+    const auth = request.headers.authorization;
+    const token = auth.split(' ')[1]
+    const { id } = jwt.verify(token, secretKey)
+    console.log('token2->', jwt.decode(token))
+    const user = await User.findById(id)
+    const profile = {
+        "userid": user._id,
+        "username": user.username,
+        "name": user.name,
+        "surname": user.surname,
+    }
+    reply.send(profile)
 })
 
 //Swagger ---------------------------------------
