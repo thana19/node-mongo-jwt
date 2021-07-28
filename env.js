@@ -5,7 +5,7 @@ const config = {
     mongodb: {
         uri: process.env.MONGO_URI || 
         'mongodb://usr:secure@mongo/test'
-        // 'mongodb://usr:secure@157.230.254.37:27018/test'
+        
     },
     secretKey: process.env.SECRET_KEY || '12345678'
 }
