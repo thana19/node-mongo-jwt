@@ -52,7 +52,7 @@ const generatePassword = async (password) => {
     return passwordHashed
 }
 
-app.post('/register', async (request, reply) => {
+app.post('/users', async (request, reply) => {
     const doc = request.body
     // console.log('request.body.password ->', request.body.password)
 
@@ -61,6 +61,25 @@ app.post('/register', async (request, reply) => {
     const user = new User(doc)
     await user.save()
     reply.send(user) 
+})
+
+app.post('/register', async (request, reply) => {
+    const doc = request.body
+    // console.log('request.body.password ->', request.body.password)
+
+    doc.password = await generatePassword(request.body.password)
+
+    const user = new User(doc)
+    await user.save()
+
+    const profile = {
+        "userid": user._id,
+        "username": user.username,
+        "name": user.name,
+        "surname": user.surname,
+    }
+
+    reply.send(profile) 
 })
 
 const comparePassword = async (password, existsPassword) => {
