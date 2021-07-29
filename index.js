@@ -52,7 +52,7 @@ const generatePassword = async (password) => {
     return passwordHashed
 }
 
-app.post('/users', async (request, reply) => {
+app.post('/register', async (request, reply) => {
     const doc = request.body
     // console.log('request.body.password ->', request.body.password)
 
