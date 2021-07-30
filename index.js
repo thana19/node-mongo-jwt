@@ -226,7 +226,7 @@ app.post('/profile', {
 //Swagger ---------------------------------------
 
 app.register(FastifySwagger, {
-    routePrefix: '/documents',
+    routePrefix: '/workshop/documents',
     swagger: {
         info: {
             title: 'api.thana.in.th LLDD',
