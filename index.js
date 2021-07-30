@@ -252,7 +252,7 @@ app.register(FastifySwagger, {
 
 const registerRoute = {
     method: 'POST',
-    url: '/register',
+    url: '/workshop/register',
     schema: {
         body: {
             username: {
@@ -312,7 +312,7 @@ app.route(registerRoute)
 
 const logineRoute = {
     method: 'POST',
-    url: '/login',
+    url: '/workshop/login',
     schema: {
         body: {
             username: {
@@ -366,7 +366,7 @@ app.route(logineRoute)
 //getprofile
 const getProfileRoute = {
     method: 'GET',
-    url: '/getprofile',
+    url: '/workshop/getprofile',
     schema: {
         // body: {
         //     username: {
@@ -427,7 +427,7 @@ app.route(getProfileRoute)
 //updateprofile
 const updateProfileRoute = {
     method: 'PATCH',
-    url: '/updateprofile',
+    url: '/workshop/updateprofile',
     schema: {
         body: {
             // userid: {
